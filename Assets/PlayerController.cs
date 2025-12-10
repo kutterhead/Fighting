@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInput playerInput;
 
+    public InputAction moveH;
 
     public InputAction fordward;
     public InputAction backward;
@@ -14,9 +15,14 @@ public class PlayerController : MonoBehaviour
 
 
     public Animator animator;
+
+
+
+
     
     void Start()
     {
+        moveH = playerInput.actions.FindAction("Forward");
         fordward = playerInput.actions.FindAction("Forward");
         backward = playerInput.actions.FindAction("Backward");
         jump = playerInput.actions.FindAction("Jump");
@@ -25,15 +31,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Movimiento: " + ((moveH.ReadValue<float>() * 2) - 1f) );
 
+
+        
         if (fordward.triggered)//getkeyDown
         {
-            Debug.Log("tecla pulsada");
+            //Debug.Log("tecla pulsada");
 
         }
         if (fordward.IsPressed())//getkey
         {
-            Debug.Log("tecla pulsada");
+            //Debug.Log("tecla pulsada");
             animator.SetBool("Forward", true);
 
 
@@ -47,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (backward.IsPressed())//getkey
         {
-            Debug.Log("tecla pulsada");
+           // Debug.Log("tecla pulsada");
             animator.SetBool("Backward",true);
 
 
