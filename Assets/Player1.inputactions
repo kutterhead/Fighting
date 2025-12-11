@@ -34,12 +34,21 @@
                 },
                 {
                     "name": "MoveH",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "c51ef9a6-f7dd-4309-8513-8ac305d45947",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Down",
+                    "type": "Button",
+                    "id": "404784fc-645a-4a01-8857-743795cd2188",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -77,17 +86,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "6db04c9f-782b-4bc8-ae7f-8b3fdfce3fe2",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveH",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "1D Axis",
                     "id": "f76d1257-793d-43e6-85e0-f9e02633d8dd",
                     "path": "1DAxis",
@@ -119,6 +117,17 @@
                     "action": "MoveH",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fbc1de52-b34b-43fb-878b-484a249c01c2",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
