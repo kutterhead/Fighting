@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,12 @@ public class PlayerController : MonoBehaviour
     public InputAction jump;
     public InputAction down;
     public Animator animator;
-  
+
+
+    public Transform raycastEmissor;
+
+    private bool isGrounded = false;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -34,15 +40,44 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Movimiento: " + movimientoH);
 
-        // rigidbody.linearVelocity = transform.forward * movimientoH * velocidadX;
-        if (jump.triggered)
+
+        if (movimientoH!=0)
         {
-        rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, rigidbody.linearVelocity.y + salto, rigidbody.linearVelocity.z);
+
+        rigidbody.linearVelocity = transform.forward * movimientoH * velocidadX  + new Vector3(0, rigidbody.linearVelocity.y,0) ;
+        }
+
+
+
+
+
+        if (jump.triggered && isGrounded)
+        {
+        rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, salto, rigidbody.linearVelocity.z);
             //rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, salto, rigidbody.linearVelocity.z); 
          //   rigidbody.linearVelocity += transform.up * salto;
 
         }
+        RaycastHit hit;
 
+
+        if ((Physics.Raycast(raycastEmissor.position, -raycastEmissor.up, out hit, 1f, LayerMask.GetMask("Ground"))))
+        {
+        Debug.DrawRay(raycastEmissor.position, -raycastEmissor.up,Color.red);
+            isGrounded = true;
+        }
+        else
+        {
+            Debug.DrawRay(raycastEmissor.position, -raycastEmissor.up, Color.green);
+            isGrounded = false;
+        }
+
+        if (rigidbody.linearVelocity.y<0)
+        {
+            rigidbody.linearVelocity -= transform.up * Time.fixedDeltaTime * 10f;
+           
+            
+        }
 
 
 
