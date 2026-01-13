@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,12 +11,24 @@ public class PlayerController : MonoBehaviour
     public InputAction moveH;
     public InputAction jump;
     public InputAction down;
+
+    public InputAction punch1;
+    public InputAction punch2;
+    public InputAction kick1;
+    public InputAction kick2;
+
     public Animator animator;
 
 
     public Transform raycastEmissor;
 
-    private bool isGrounded = false;
+    public bool isGrounded = false;
+
+    public bool isOnleft = false;
+
+    public Vector3 lastPosition = Vector3.zero; 
+
+
 
     void Start()
     {
@@ -23,39 +36,102 @@ public class PlayerController : MonoBehaviour
         moveH = playerInput.actions.FindAction("MoveH");
         down = playerInput.actions.FindAction("Down");
         jump = playerInput.actions.FindAction("Jump");
+
+        punch1 = playerInput.actions.FindAction("Punch1");
+        punch2 = playerInput.actions.FindAction("Punch2");
+        kick1 = playerInput.actions.FindAction("Kick1");
+        kick2 = playerInput.actions.FindAction("kick2");
+
+
+
     }
 
     // Update is called once per frame
     float movimientoH = 0f;
     public float velocidadX = 1f;
-    void Update()
-    {
 
-
-    }
     public float salto = 10f;
+
+
+    float distance = 0f;
     private void FixedUpdate()
     {
-        movimientoH = moveH.ReadValue<float>();
 
-        Debug.Log("Movimiento: " + movimientoH);
+        distance = Vector3.Magnitude(lastPosition - transform.position);
 
 
-        if (movimientoH!=0)
+        Debug.Log(distance);
+        lastPosition = transform.position;
+
+        //if (distance>0.1f)
+        //{
+        //    Debug.Log(distance);
+
+
+        //}
+
+
+
+
+
+
+        if (isOnleft)
         {
 
-        rigidbody.linearVelocity = transform.forward * movimientoH * velocidadX  + new Vector3(0, rigidbody.linearVelocity.y,0) ;
+            movimientoH = moveH.ReadValue<float>();
+
+        }
+        else
+        {
+            movimientoH = -moveH.ReadValue<float>();
         }
 
 
 
 
+        //Debug.Log("Movimiento: " + movimientoH);
+
+
+        if (movimientoH != 0)
+        {
+
+            rigidbody.linearVelocity = transform.forward * movimientoH * velocidadX + new Vector3(0, rigidbody.linearVelocity.y, 0);
+
+            if (movimientoH > 0)
+            {
+                animator.SetBool("Forward", true);
+                animator.SetBool("Backward", false);
+            }
+            else
+            {
+                animator.SetBool("Forward", false);
+                animator.SetBool("Backward", true);
+
+
+            }
+
+
+        }
+        else
+        {
+            animator.SetBool("Forward", false);
+            animator.SetBool("Backward", false);
+        }
+
+        if (kick1.triggered)
+        {
+            animator.SetTrigger("Kick1");
+        }
+
 
         if (jump.triggered && isGrounded)
         {
-        rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, salto, rigidbody.linearVelocity.z);
+            rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, salto, rigidbody.linearVelocity.z);
+
+
+
             //rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, salto, rigidbody.linearVelocity.z); 
-         //   rigidbody.linearVelocity += transform.up * salto;
+            //   rigidbody.linearVelocity += transform.up * salto;
 
         }
         RaycastHit hit;
@@ -74,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
         if (rigidbody.linearVelocity.y<0)
         {
-            rigidbody.linearVelocity -= transform.up * Time.fixedDeltaTime * 10f;
+           //w rigidbody.linearVelocity -= transform.up * Time.fixedDeltaTime * 10f;
            
             
         }
