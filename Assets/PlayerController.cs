@@ -1,7 +1,7 @@
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,10 +26,19 @@ public class PlayerController : MonoBehaviour
 
     public bool isOnleft = false;
 
-    public Vector3 lastPosition = Vector3.zero; 
+    public Vector3 lastPosition = Vector3.zero;
+
+    public float life = 1f;
+    public PlayerController otherPlayer;
+    // Update is called once per frame
+    float movimientoH = 0f;
+    public float velocidadX = 1f;
+
+    public float salto = 10f;
 
 
-
+    public Slider lifeSlide;
+    
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -42,26 +51,18 @@ public class PlayerController : MonoBehaviour
         kick1 = playerInput.actions.FindAction("Kick1");
         kick2 = playerInput.actions.FindAction("kick2");
 
-
+       
 
     }
 
-    // Update is called once per frame
-    float movimientoH = 0f;
-    public float velocidadX = 1f;
-
-    public float salto = 10f;
-
-
-    float distance = 0f;
     private void FixedUpdate()
     {
 
-        distance = Vector3.Magnitude(lastPosition - transform.position);
+       // distance = Vector3.Magnitude(lastPosition - transform.position);
 
 
-        Debug.Log(distance);
-        lastPosition = transform.position;
+        //Debug.Log(distance);
+        //lastPosition = transform.position;
 
         //if (distance>0.1f)
         //{
@@ -86,6 +87,21 @@ public class PlayerController : MonoBehaviour
             movimientoH = -moveH.ReadValue<float>();
         }
 
+
+
+
+        if (punch1.triggered)
+        {
+
+            animator.SetTrigger("UpperL");
+        
+        }
+        if (punch2.triggered)
+        {
+
+            animator.SetTrigger("UpperR");
+
+        }
 
 
 
@@ -158,6 +174,20 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    public void getdamage(float damage)
+    {
 
+        life -= damage;
+
+        if (life<=0f)
+        {
+            Debug.Log("Game Over");
+            life = 0;
+        }
+
+
+        lifeSlide.value = life;
+
+    }
 
 }

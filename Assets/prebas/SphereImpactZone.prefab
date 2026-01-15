@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7785570026029934330}
   - component: {fileID: 6007363581743557046}
   - component: {fileID: 6159866210049509197}
+  - component: {fileID: -991139814632409351}
   m_Layer: 0
   m_Name: SphereImpactZone
   m_TagString: Untagged
@@ -108,3 +109,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-991139814632409351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3905634207869287439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48cfd762c7e661b48a14b45781a0f643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
