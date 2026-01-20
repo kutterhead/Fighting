@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("UpperL");
         
         }
-        if (punch2.triggered)
+        else if (punch2.triggered)
         {
 
             animator.SetTrigger("UpperR");
